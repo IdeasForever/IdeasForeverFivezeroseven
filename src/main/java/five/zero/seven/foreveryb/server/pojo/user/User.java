@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import five.zero.seven.foreveryb.footstone.base.entity.BasicStates;
 import five.zero.seven.foreveryb.footstone.base.entity.HasUCN;
 import five.zero.seven.foreveryb.footstone.base.entity.VersionedEntity;
 
@@ -35,6 +36,7 @@ public class User extends VersionedEntity implements HasUCN{
   private String name;
   @NotEmpty
   private String passwd;
+  private String state = BasicStates.USING;
   private String gentle;
   private String email;
   private String city;
@@ -68,6 +70,16 @@ public class User extends VersionedEntity implements HasUCN{
 
   public void setPasswd(String passwd) {
     this.passwd = passwd;
+  }
+  
+
+  /** 用户状态： */
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
   }
 
   /** 性别 */

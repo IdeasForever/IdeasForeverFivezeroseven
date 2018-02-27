@@ -61,5 +61,12 @@ public interface UserService {
    */
   public PageInfo<User> selectAllUsers(QueryFilter filter) throws Exception;
   
+  /**
+   * @description 改变用户状态
+   * @param uuid,version,state 
+   * @return
+   * @throws Exception 
+   * */
+  public void changeState(Integer id,String uuid, Long version, String state) throws Exception;
   
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
@@ -57,7 +58,7 @@ public class UserController {
   }
 
   /**
-   * @description 添加指定Id的用户
+   * @description 添加用户
    * @return
    * @throws Exception
    */
@@ -104,6 +105,17 @@ public class UserController {
 
     PageInfo<User> queryResult = userService.selectAllUsers(filter);
     return queryResult;
+  }
+  
+  /**
+   * @description 改变用户状态(使用中，停用),当state==delete时，，为彻底删除用户 
+   * @return
+   * @throws Exception
+   * */
+  @RequestMapping(value = "/changeState", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+  @IgnoreSecurity
+  public void changeState(@RequestParam("id") Integer id,@RequestParam("uuid") String uuid,@RequestParam("version") Long version,@RequestParam("state") String state) throws Exception {
+     userService.changeState(id, uuid, version, state);
   }
 
 }

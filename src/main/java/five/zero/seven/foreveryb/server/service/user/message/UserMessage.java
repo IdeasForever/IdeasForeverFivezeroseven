@@ -25,4 +25,8 @@ public class UserMessage {
  public static final String noName = "用户名不能为空";
  
  public static final String onlyOneUser = "当前用户名已存在";
+ 
+ public static final String userStateUnnormal = "用户状态异常";
+ 
+ public static final String prohibitDelete = "该用户状态禁止删除";
 }

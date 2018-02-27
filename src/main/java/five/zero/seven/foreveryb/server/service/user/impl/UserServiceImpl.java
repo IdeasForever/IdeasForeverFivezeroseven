@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import five.zero.seven.foreveryb.footstone.base.entity.BasicStates;
 import five.zero.seven.foreveryb.footstone.base.query.QueryFilter;
 import five.zero.seven.foreveryb.footstone.util.CodeUuidUtil;
 import five.zero.seven.foreveryb.footstone.util.VersionUtil;
@@ -81,15 +82,15 @@ public class UserServiceImpl implements UserService {
       example.createCriteria().andCondition("name =", uuid);
       user = userMapper.selectOneByExample(example);
     }
-    
+
     return user;
-    
   }
 
   public void saveUser(User user) throws Exception {
+    // 版本修改时间制空，意为不注入
+    user.setVersionTime(null);
 
     if (StringUtils.isNotBlank(user.getUuid())) { // 编辑
-
       // 验证版本号
       safeGet(user.getId(), user.getUuid(), user.getVersion());
       userMapper.updateByPrimaryKey(user);
@@ -103,33 +104,6 @@ public class UserServiceImpl implements UserService {
       user.setUuid(uuid);
       userMapper.insert(user);
     }
-
-  }
-
-  private User safeGet(int id, String uuid, long verstion) throws Exception {
-    User queryUser = new User();
-    queryUser.setId(id);
-    User entity = userMapper.selectByPrimaryKey(queryUser);
-    if (entity == null) {
-      throw new Exception(UserMessage.noUser);
-    }
-    if (!entity.getUuid().equals(uuid)) {
-      throw new Exception(UserMessage.uuidNotSame);
-    }
-    VersionUtil.checkVersion(verstion, entity);
-
-    return entity;
-  }
-
-  private boolean ValidateUser(User user) throws Exception {
-    if (StringUtils.isBlank(user.getCode())) {
-      throw new Exception(UserMessage.noName);
-    }
-    Example example = new Example(User.class);
-    example.createCriteria().andCondition("code =", user.getCode());
-    user = userMapper.selectOneByExample(example);
-    return user == null ? true : false;
-
   }
 
   public PageInfo<User> queryUser(QueryFilter filter) throws Exception {
@@ -146,6 +120,7 @@ public class UserServiceImpl implements UserService {
     }
     Example queryExample = new Example(User.class);
     Criteria criteria = queryExample.createCriteria();
+
     if (StringUtils.isBlank(filter.getKeyWord())) {
       criteria.orLike("name", "%" + filter.getKeyWord() + "%").orLike("code",
           "%" + filter.getKeyWord() + "%");
@@ -171,6 +146,7 @@ public class UserServiceImpl implements UserService {
           criteria.andCondition(key + " =", queryFilter.get(key));
         }
       }
+      // criteria.andEqualTo(filter.getFilter());
     }
     String sortPropety = "";
     if (filter.getSorts() != null) {
@@ -201,6 +177,58 @@ public class UserServiceImpl implements UserService {
 
     PageInfo<User> result = new PageInfo<User>(users);
     return result;
+  }
+
+  public void changeState(Integer id, String uuid, Long version, String state) throws Exception {
+    if (StringUtils.isBlank(uuid)) {
+      return;
+    }
+    User entity = safeGet(id, uuid, version);
+    // 制空操作时间 不注入
+    if (state == "delete") {
+      if(!entity.getState().equals(BasicStates.DISABLED)) {
+        throw new Exception(UserMessage.prohibitDelete);
+      }  else {
+        userMapper.delete(entity);
+      }
+    } else {
+      entity.setVersionTime(null);
+
+      if (entity.getState().equals(state)) {
+        throw new Exception(UserMessage.userStateUnnormal);
+      }
+      entity.setState(state);
+      userMapper.updateByPrimaryKey(entity);
+    }
+  }
+
+  private boolean ValidateUser(User user) throws Exception {
+    if (StringUtils.isBlank(user.getCode())) {
+      throw new Exception(UserMessage.noName);
+    }
+    Example example = new Example(User.class);
+    example.createCriteria().andCondition("code =", user.getCode());
+    user = userMapper.selectOneByExample(example);
+    return user == null ? true : false;
+
+  }
+
+  /**
+   * 辅助方法，安全获取
+   */
+  private User safeGet(int id, String uuid, long version) throws Exception {
+    User queryUser = new User();
+    queryUser.setId(id);
+    User entity = userMapper.selectByPrimaryKey(queryUser);
+    if (entity == null) {
+      throw new Exception(UserMessage.noUser);
+    }
+    if (!entity.getUuid().equals(uuid)) {
+      throw new Exception(UserMessage.uuidNotSame);
+    }
+    VersionUtil.checkVersion(version, entity);
+
+    return entity;
   }
 
 }

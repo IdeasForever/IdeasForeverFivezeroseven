@@ -28,5 +28,7 @@ public interface UserMapper extends Mapper<User> {
   public List<User> query(QueryFilter filter);
   
   public User getUserByUuid(String uuid);
+  
+  public void changeState(String uuid, Long version, String state);
 
 }
