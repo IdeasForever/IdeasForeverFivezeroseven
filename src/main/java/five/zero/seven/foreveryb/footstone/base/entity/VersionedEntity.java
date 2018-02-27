@@ -26,17 +26,16 @@ public abstract class VersionedEntity extends Entity implements HasVersion{
   private static final long serialVersionUID = 2051990708382915648L;
   
   @Version
-  private long version = HasVersion.START_VERSION;
-  
+  private Long version = HasVersion.START_VERSION;
   private Date versionTime;
   private Date createTime;
 
   /** 版本号。从0开始计数，默认为{HasVersion.DEFAULT_VERSION}. */
-  public long getVersion() {
+  public Long getVersion() {
     return version;
   }
 
-  public void setVersion(long version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
 

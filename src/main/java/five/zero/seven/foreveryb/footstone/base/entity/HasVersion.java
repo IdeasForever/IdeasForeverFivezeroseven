@@ -19,16 +19,16 @@ package five.zero.seven.foreveryb.footstone.base.entity;
 public interface HasVersion {
 
   /** 约定的起始版本号。 */
-  public static final long START_VERSION = 0L;
+  public static final Long START_VERSION = 0L;
 
   /**
    * 版本号。
    */
-  long getVersion();
+  Long getVersion();
 
   /**
    * @throws UnsupportedOperationException
    *           当实现类不提供修改版本号功能时抛出。
    */
-  void setVersion(long version) throws UnsupportedOperationException;
+  void setVersion(Long version) throws UnsupportedOperationException;
 }

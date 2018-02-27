@@ -12,6 +12,7 @@ package five.zero.seven.foreveryb.footstone.base.entity;
 import java.io.Serializable;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -28,17 +29,17 @@ public abstract class Entity implements Serializable {
   private static final long serialVersionUID = -4277773014737849096L;
 
   @Id
-  @GeneratedValue(generator = "JDBC")
-  private int id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
   private String uuid;
 
   /** id：实体的ID物理主键 */
-  public int getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

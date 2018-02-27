@@ -61,11 +61,11 @@ public class UserServiceImpl implements UserService {
    * @return 用户名、密码匹配成功，返回true；否则，返回false;
    */
   @Transactional(readOnly = false) // 必须设置为false,因为此处切入了日志的保存逻辑
-  public boolean login(String name, String passwd) {
+  public boolean login(String code, String passwd) {
     Example example = new Example(User.class);
-    example.createCriteria().andCondition("name =", name).andCondition("passwd =", passwd);
+    example.createCriteria().andCondition("code =", code).andCondition("passwd =", passwd);
     User user = userMapper.selectOneByExample(example);
-    return (user != null && user.getName().equals(name)) ? true : false;
+    return (user != null && user.getName().equals(code)) ? true : false;
   }
 
   /**
@@ -81,7 +81,9 @@ public class UserServiceImpl implements UserService {
       example.createCriteria().andCondition("name =", uuid);
       user = userMapper.selectOneByExample(example);
     }
+    
     return user;
+    
   }
 
   public void saveUser(User user) throws Exception {
@@ -90,9 +92,6 @@ public class UserServiceImpl implements UserService {
 
       // 验证版本号
       safeGet(user.getId(), user.getUuid(), user.getVersion());
-      // 数据库设置一下 版本号为自增
-      long version = user.getVersion() + 1;
-      user.setVersion(version);
       userMapper.updateByPrimaryKey(user);
     } else {
       String uuid = CodeUuidUtil.createEntityId();// 新建
@@ -108,7 +107,9 @@ public class UserServiceImpl implements UserService {
   }
 
   private User safeGet(int id, String uuid, long verstion) throws Exception {
-    User entity = userMapper.selectByPrimaryKey(id);
+    User queryUser = new User();
+    queryUser.setId(id);
+    User entity = userMapper.selectByPrimaryKey(queryUser);
     if (entity == null) {
       throw new Exception(UserMessage.noUser);
     }
@@ -121,11 +122,11 @@ public class UserServiceImpl implements UserService {
   }
 
   private boolean ValidateUser(User user) throws Exception {
-    if (StringUtils.isBlank(user.getName())) {
+    if (StringUtils.isBlank(user.getCode())) {
       throw new Exception(UserMessage.noName);
     }
     Example example = new Example(User.class);
-    example.createCriteria().andCondition("name =", user.getName());
+    example.createCriteria().andCondition("code =", user.getCode());
     user = userMapper.selectOneByExample(example);
     return user == null ? true : false;
 

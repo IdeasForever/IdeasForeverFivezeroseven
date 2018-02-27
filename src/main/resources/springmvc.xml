@@ -30,7 +30,22 @@
 
   <!-- 会自动注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter两个Bean， 
     这是SpringMVC为@Controllers分发请求所必需的，并提供了数据绑定支持、@NumberFormatannotation支持、 @DateTimeFormat支持、@Valid支持、读写XML的支持和读写JSON的支持等功能。 -->
-  <mvc:annotation-driven />
+  <mvc:annotation-driven>
+  <!-- 处理responseBody 里面日期类型 -->
+  <mvc:message-converters>
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+      <property name="objectMapper">
+        <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+          <property name="dateFormat">
+            <bean class="five.zero.seven.foreveryb.footstone.format.DateTimeFormat">
+              <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+            </bean>
+          </property>
+        </bean>
+      </property>
+    </bean>
+  </mvc:message-converters>  
+  </mvc:annotation-driven>
 
 
   <!-- 使用默认的Servlet来响应静态文件 -->

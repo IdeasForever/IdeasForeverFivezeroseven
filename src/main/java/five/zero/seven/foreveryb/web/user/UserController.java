@@ -9,8 +9,6 @@
  */
 package five.zero.seven.foreveryb.web.user;
 
-import java.util.Date;
-
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
+
 import five.zero.seven.foreveryb.footstone.base.annotation.IgnoreSecurity;
+import five.zero.seven.foreveryb.footstone.base.query.QueryFilter;
 import five.zero.seven.foreveryb.server.pojo.user.User;
 import five.zero.seven.foreveryb.server.service.user.UserService;
 
@@ -48,6 +49,7 @@ public class UserController {
    * @return
    */
   @RequestMapping(value = "/user/{uuid}", method = RequestMethod.GET, produces = "application/json")
+  @IgnoreSecurity
   public User getUser(@PathVariable("uuid") String uuid) {
     User user = userService.getUser(uuid);
     log.debug("查询用户 :" + user);
@@ -56,7 +58,6 @@ public class UserController {
 
   /**
    * @description 添加指定Id的用户
-   * @author rico
    * @return
    * @throws Exception
    */
@@ -71,9 +72,38 @@ public class UserController {
     } else {
       log.debug("保存用户 :" + user);
     }
-    user.setCreateTime(new Date());
     userService.saveUser(user);
-    return user;
+    return userService.getUser(user.getUuid());
+  }
+
+  /**
+   * @description 用户查询（按照条件）
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/query", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+  @IgnoreSecurity
+  public PageInfo<User> queryUser(@RequestBody QueryFilter filter) throws Exception {
+    if (filter == null)
+      return new PageInfo<User>();
+
+    PageInfo<User> queryResult = userService.queryUser(filter);
+    return queryResult;
+  }
+
+  /**
+   * @description 用户查询（按照条件）(试验2)
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/select", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+  @IgnoreSecurity
+  public PageInfo<User> selectAllUsers(@RequestBody QueryFilter filter) throws Exception {
+    if (filter == null)
+      return new PageInfo<User>();
+
+    PageInfo<User> queryResult = userService.selectAllUsers(filter);
+    return queryResult;
   }
 
 }

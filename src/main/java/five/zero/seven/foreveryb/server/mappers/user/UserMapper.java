@@ -26,5 +26,7 @@ import tk.mybatis.mapper.common.Mapper;
 public interface UserMapper extends Mapper<User> {
 
   public List<User> query(QueryFilter filter);
+  
+  public User getUserByUuid(String uuid);
 
 }

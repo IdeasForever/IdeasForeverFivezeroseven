@@ -33,7 +33,7 @@ public class CodeUuidUtil {
    * @return uuid
    */
   public static String createEntityId() {
-    return UUID.randomUUID().toString().replaceAll("-", " ");
+    return UUID.randomUUID().toString().replaceAll("-", "");
   }
 
 }

@@ -94,6 +94,8 @@
       <value>
         mappers=tk.mybatis.mapper.common.Mapper
         style=camelhump
+        identity=MYSQL 
+        order=AFTER
       </value>
     </property>
   </bean>

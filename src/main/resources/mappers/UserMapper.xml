@@ -62,5 +62,9 @@
     </choose>
     id desc
   </select>
+  
+  <select id="getUserByUuid" parameterType="java.lang.String" resultMap="userQueryResult">
+  select * from user where uuid = #{uuid}
+  </select>
 
 </mapper>
