@@ -77,7 +77,11 @@ public class TokenController {
       Cookie cookie = new Cookie(Constants.DEFAULT_TOKEN_NAME, token);
       log.debug("Write Token to Cookie and return to the Client : " + cookie.toString());
 //      response.addCookie(cookie);
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> branch 'master' of https://github.com/IdeasForever/IdeasForeverFivezeroseven.git
       return new Response().success(cookie);
     }
     return new Response().failure("Login Failure...");
