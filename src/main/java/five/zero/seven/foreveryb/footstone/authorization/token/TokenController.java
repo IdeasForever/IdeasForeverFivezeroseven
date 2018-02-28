@@ -77,6 +77,7 @@ public class TokenController {
       Cookie cookie = new Cookie(Constants.DEFAULT_TOKEN_NAME, token);
       log.debug("Write Token to Cookie and return to the Client : " + cookie.toString());
 //      response.addCookie(cookie);
+      //返回cookie
       return new Response().success(cookie);
     }
     return new Response().failure("Login Failure...");
