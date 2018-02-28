@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     Example example = new Example(User.class);
     example.createCriteria().andCondition("code =", code).andCondition("passwd =", passwd);
     User user = userMapper.selectOneByExample(example);
-    return (user != null && user.getName().equals(code)) ? true : false;
+    return (user != null && user.getCode().equals(code)) ? true : false;
   }
 
   /**

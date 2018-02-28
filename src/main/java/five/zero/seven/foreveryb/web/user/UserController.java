@@ -48,9 +48,9 @@ public class UserController {
    * @description 获取指定Id的用户
    * @param uuid
    * @return
+//  @IgnoreSecurity 暂时注释
    */
   @RequestMapping(value = "/user/{uuid}", method = RequestMethod.GET, produces = "application/json")
-  @IgnoreSecurity
   public User getUser(@PathVariable("uuid") String uuid) {
     User user = userService.getUser(uuid);
     log.debug("查询用户 :" + user);
@@ -110,10 +110,10 @@ public class UserController {
   /**
    * @description 改变用户状态(使用中，停用),当state==delete时，，为彻底删除用户 
    * @return
+   * @IgnoreSecurity
    * @throws Exception
    * */
   @RequestMapping(value = "/changeState", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
-  @IgnoreSecurity
   public void changeState(@RequestParam("id") Integer id,@RequestParam("uuid") String uuid,@RequestParam("version") Long version,@RequestParam("state") String state) throws Exception {
      userService.changeState(id, uuid, version, state);
   }

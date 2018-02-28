@@ -65,6 +65,7 @@ public class TokenController {
   public Response login(@RequestBody LoginParameter loginUser, HttpServletResponse response) {
     if (loginUser == null)
       return new Response().failure("缺少必要参数");
+    
 
     String uname = loginUser.getUname();
     String passwd = loginUser.getPasswd();
@@ -75,8 +76,8 @@ public class TokenController {
       log.debug("**** Generate Token **** : " + token);
       Cookie cookie = new Cookie(Constants.DEFAULT_TOKEN_NAME, token);
       log.debug("Write Token to Cookie and return to the Client : " + cookie.toString());
-      response.addCookie(cookie);
-      return new Response().success("Login Success...");
+//      response.addCookie(cookie);
+      return new Response().success(cookie);
     }
     return new Response().failure("Login Failure...");
   }

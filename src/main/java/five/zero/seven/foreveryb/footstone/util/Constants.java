@@ -26,7 +26,7 @@ public class Constants {
    */
   public static final int TOKEN_EXPIRES_HOUR = 72;
 
-  /**  存放Token的header字段  (@author: rico) */      
+  /**  存放Token的header字段  (@author: wangyibo) */      
   public static final String DEFAULT_TOKEN_NAME = "X-Token";
   
 }

@@ -27,11 +27,11 @@ public interface UserService {
 
   /**
    * @description 用户登录逻辑
-   * @param name
+   * @param code
    * @param passwd
    * @return
    */
-  public boolean login(String name, String passwd);
+  public boolean login(String code, String passwd);
 
   /**
    * @description 用户注册逻辑
