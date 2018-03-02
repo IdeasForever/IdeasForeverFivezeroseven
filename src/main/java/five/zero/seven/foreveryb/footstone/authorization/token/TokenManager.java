@@ -9,6 +9,8 @@
  */
 package five.zero.seven.foreveryb.footstone.authorization.token;
 
+import five.zero.seven.foreveryb.footstone.base.login.param.LoginParameter;
+
 /**
  * Title: REST 鉴权   
  * Description: 登录用户的身份鉴权
@@ -23,12 +25,12 @@ public interface TokenManager {
   /**
    * 创建
    * */
-  String createToken(String username);  
+  String createToken(LoginParameter loginInfo);  
 
   /**
    * 检查
    * */
-  boolean checkToken(String token); 
+  boolean checkToken(String loginCode,String token); 
   
   /**
    * 注销

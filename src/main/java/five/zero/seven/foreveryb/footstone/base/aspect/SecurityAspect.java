@@ -55,8 +55,10 @@ public class SecurityAspect {
 
     // 从 request header 中获取当前 token
     String token = WebContextUtil.getRequest().getHeader(Constants.DEFAULT_TOKEN_NAME);
+    // 从 request header 中获取当前 loginCode
+    String loginCode = WebContextUtil.getRequest().getHeader(Constants.DEFAULT_LOGIN_CODE);
     // 检查 token 有效性
-    if (!tokenManager.checkToken(token)) {
+    if (!tokenManager.checkToken(loginCode, token)) {
       String message = String.format("token [%s] is invalid", token);
       log.debug("message : " + message);
       throw new Exception(message);

@@ -9,6 +9,9 @@
  */
 package five.zero.seven.foreveryb.footstone.base.login.param;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Title: 统一响应结构 
  * Description:使用REST框架实现前后端分离架构，我们需要首先确定返回的JSON响应结构是统一的，
@@ -25,17 +28,16 @@ public class Response {
   private static final String ERROR = "error";
 
   private Meta meta;     // 元数据
-  private Object data;   // 响应内容
+  private Map<String, Object> data = new HashMap<String, Object>();   // 响应内容
 
   public Response success() {
       this.meta = new Meta(true, OK);
       return this;
   }
 
-  public Response success(Object data) {
-      this.meta = new Meta(true, OK);
-      this.data = data;
-      return this;
+  public Response putDataValue(String key, Object value) {
+    data.put(key, value);
+    return this;
   }
 
   public Response failure() {

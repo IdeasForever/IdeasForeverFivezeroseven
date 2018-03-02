@@ -31,7 +31,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.0.4.RELEASE</version>
+      <version>4.2.6.RELEASE</version>
     </dependency>
     <!-- aspectj AOP -->
     <dependency>
@@ -60,8 +60,9 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <version>4.0.4.RELEASE</version>
+      <version>4.2.6.RELEASE</version>
     </dependency>
+    <!--4.0.4 -->
     <!-- DataSource 数据源 -->
     <dependency>
       <groupId>commons-dbcp</groupId>
@@ -84,7 +85,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>4.0.4.RELEASE</version>
+      <version>4.2.6.RELEASE</version>
     </dependency>
 
     <!-- 集成通用mapper依赖 -->
@@ -138,6 +139,27 @@
       <artifactId>hibernate-validator</artifactId>
       <version>5.2.4.Final</version>
     </dependency>
+
+    <!-- redis.clients 依赖 -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+    <!--spring <-> redis -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.7.2.RELEASE</version>
+    </dependency>
+    
+     <!-- jwt, java web token-->
+   <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+   <dependency>
+    <groupId>com.auth0</groupId>
+    <artifactId>java-jwt</artifactId>
+    <version>2.2.0</version>
+   </dependency>
 
     <!-- apache.commons.lang 提供一些工具方法 暂时使用使用人数最多的3.4版本 -->
     <dependency>

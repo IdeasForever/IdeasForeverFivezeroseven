@@ -29,4 +29,7 @@ public class Constants {
   /**  存放Token的header字段  (@author: wangyibo) */      
   public static final String DEFAULT_TOKEN_NAME = "X-Token";
   
+  /**  存放loginCode的header字段  (@author: wangyibo) */      
+  public static final String DEFAULT_LOGIN_CODE = "loginCode";
+  
 }

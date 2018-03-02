@@ -9,9 +9,7 @@
  */
 package five.zero.seven.foreveryb.footstone.authorization.token;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,22 +60,23 @@ public class TokenController {
    */
   @RequestMapping(method = RequestMethod.POST)
   @IgnoreSecurity
-  public Response login(@RequestBody LoginParameter loginUser, HttpServletResponse response) {
+  public Response login(@RequestBody LoginParameter loginUser) {
     if (loginUser == null)
       return new Response().failure("缺少必要参数");
     
 
-    String uname = loginUser.getUname();
+    String code = loginUser.getCode();
     String passwd = loginUser.getPasswd();
 
-    boolean flag = userService.login(uname, passwd);
+    boolean flag = userService.login(code, passwd);
     if (flag) {
-      String token = tokenManager.createToken(uname);
-      log.debug("**** Generate Token **** : " + token);
-      Cookie cookie = new Cookie(Constants.DEFAULT_TOKEN_NAME, token);
-      log.debug("Write Token to Cookie and return to the Client : " + cookie.toString());
-//      response.addCookie(cookie);
-      return new Response().success(cookie);
+      String token = tokenManager.createToken(loginUser);
+      log.debug("Write Token return to the Client : " + token);
+      Response response = new Response().success(); 
+      response.putDataValue(Constants.DEFAULT_TOKEN_NAME, token);
+      response.putDataValue(Constants.DEFAULT_LOGIN_CODE, loginUser.getCode());
+      response.putDataValue("message", "login Success...");
+      return response;
     }
     return new Response().failure("Login Failure...");
   }
@@ -90,10 +89,12 @@ public class TokenController {
   @RequestMapping(method = RequestMethod.DELETE)
   @IgnoreSecurity
   public Response logout(HttpServletRequest request) {
-    String token = request.getHeader(Constants.DEFAULT_TOKEN_NAME);
-    tokenManager.deleteToken(token);
+    String loginCode = request.getHeader(Constants.DEFAULT_LOGIN_CODE);
+    tokenManager.deleteToken(loginCode);
     log.debug("Logout Success...");
-    return new Response().success("Logout Success...");
+    Response response = new Response().success(); 
+    response.putDataValue("message", "Logout Success...");
+    return response;
   }
 
 }

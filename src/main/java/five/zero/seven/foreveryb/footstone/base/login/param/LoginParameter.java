@@ -25,16 +25,16 @@ public class LoginParameter implements Serializable {
   private static final long serialVersionUID = 6168434383473860320L;
   
   
-  private String uname;
+  private String code;
   private String passwd;
 
   /** ：用户名 */
-  public String getUname() {
-    return uname;
+  public String getCode() {
+    return code;
   }
 
-  public void setUname(String uname) {
-    this.uname = uname;
+  public void setCode(String code) {
+    this.code = code;
   }
 
   /** 密码： */
