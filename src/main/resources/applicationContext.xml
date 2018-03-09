@@ -89,10 +89,10 @@
   <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="five.**.mappers" />
     <property name="sqlSessionFactoryBeanName" value="sessionFactory" />
-    <property name="markerInterface" value="tk.mybatis.mapper.common.Mapper" />
+    <property name="markerInterface" value="five.zero.seven.foreveryb.footstone.mapper.MyMapper" />
     <property name="properties">
       <value>
-        mappers=tk.mybatis.mapper.common.Mapper
+        mappers=five.zero.seven.foreveryb.footstone.mapper.MyMapper
         style=camelhump
         identity=MYSQL
         order=AFTER
