@@ -12,7 +12,6 @@ package five.zero.seven.foreveryb.footstone.redis;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,12 +27,16 @@ import five.zero.seven.foreveryb.footstone.util.JsonUtil;
 @Service(value = RedisCatch.DEFAULT_CONTEXT_ID)
 public class RedisCatchImpl implements RedisCatch {
 
-  @Autowired
+//  @Autowired 此处不用自动注入
   private StringRedisTemplate redisTemplate;
 
   /** redisTemplate： */
   public void setRedisTemplate(StringRedisTemplate redisTemplate) {
     this.redisTemplate = redisTemplate;
+  }
+  
+  public StringRedisTemplate getRedisTemplate() {
+    return this.redisTemplate;
   }
 
   public void put(String key, String value) {
