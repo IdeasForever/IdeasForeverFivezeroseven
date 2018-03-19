@@ -10,6 +10,7 @@
 package five.zero.seven.foreveryb.footstone.redis;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class RedisCatchImpl implements RedisCatch {
       return;
     }
     value.toString();
+    redisTemplate.expire(key, 30, TimeUnit.MINUTES);
     redisTemplate.opsForHash().put(key, key, value);
   }
 
@@ -52,6 +54,7 @@ public class RedisCatchImpl implements RedisCatch {
     if (StringUtils.isBlank(key)) {
       return;
     }
+    redisTemplate.expire(key, 30, TimeUnit.MINUTES);
     redisTemplate.opsForHash().put(key, key, JsonUtil.objectToJson(value));
   }
 
@@ -82,6 +85,7 @@ public class RedisCatchImpl implements RedisCatch {
     }
 
     ListOperations listOperations = redisTemplate.opsForList();
+    redisTemplate.expire(key, 30, TimeUnit.MINUTES);
     listOperations.leftPush(key, value);
   }
 
